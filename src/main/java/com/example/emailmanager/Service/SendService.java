@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.List;
+import java.util.Map;
+
 
 @Service
 public class SendService {
@@ -39,12 +42,11 @@ public class SendService {
     }
 
     public Long sendHTMLEmail(Email email) throws Exception{
+        Template template = templateService.fetchByName(email.getHtmlTemplate());
+        checkTemplateDependencies(template.getDependencies(), email.getContent());
+
         Context htmlContext = new Context();
         htmlContext.setVariable("content", email.getContent());
-        System.out.println(email.getContent());
-
-        Template template = templateService.fetchByName(email.getHtmlTemplate());
-        System.out.println(template.getDependencies());
 
         String process = templateEngine.process(email.getHtmlTemplate(), htmlContext);
 
@@ -56,12 +58,17 @@ public class SendService {
         helper.setSubject(email.getSubject());
         helper.setFrom(email.getEmailFrom());
 
-//        sender.send(mimeMessage);
+        sender.send(mimeMessage);
         return emailService.save(email);
     }
 
 
-    private final void checkTemplateDependencies(){
+    private final void checkTemplateDependencies(List<String> requiredDependencies, Map<String, String> inputContent) throws Exception{
+        for(String dependency: requiredDependencies){
+            if(! inputContent.containsKey(dependency)){
+                throw new Exception(dependency + " attribute is missing in content");
+            }
+        }
 
     }
 }
