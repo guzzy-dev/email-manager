@@ -1,7 +1,7 @@
 package com.example.emailmanager.Service;
 
 import com.example.emailmanager.Service.Repository.Entity.Email;
-import com.example.emailmanager.Service.Repository.Entity.User;
+import com.example.emailmanager.Service.Repository.Entity.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,6 +21,9 @@ public class SendService {
     EmailService emailService;
 
     @Autowired
+    TemplateService templateService;
+
+    @Autowired
     JavaMailSender sender;
 
     public Long sendSimpleEmail(Email email) throws Exception{
@@ -38,6 +41,10 @@ public class SendService {
     public Long sendHTMLEmail(Email email) throws Exception{
         Context htmlContext = new Context();
         htmlContext.setVariable("content", email.getContent());
+        System.out.println(email.getContent());
+
+        Template template = templateService.fetchByName(email.getHtmlTemplate());
+        System.out.println(template.getDependencies());
 
         String process = templateEngine.process(email.getHtmlTemplate(), htmlContext);
 
@@ -49,7 +56,12 @@ public class SendService {
         helper.setSubject(email.getSubject());
         helper.setFrom(email.getEmailFrom());
 
-        sender.send(mimeMessage);
+//        sender.send(mimeMessage);
         return emailService.save(email);
+    }
+
+
+    private final void checkTemplateDependencies(){
+
     }
 }

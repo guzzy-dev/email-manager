@@ -1,5 +1,6 @@
 package com.example.emailmanager.Service.Repository.Entity;
 
+import com.example.emailmanager.utils.Convertors.StringToListConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,10 +18,10 @@ public class Template {
     @Column(name = "name")
     private String templateName;
 
-    private String dependencies;
+    @Column(name = "dependencies")
+    @Convert(converter = StringToListConverter.class)
+    private List<String> dependencies;
 
-    @Transient
-    private List<String> dependenciesList;
 
     public Long getId() {
         return id;
@@ -38,24 +39,11 @@ public class Template {
         this.templateName = templateName;
     }
 
-    public List<String> getDependenciesList() {
-        return dependenciesList;
+    public List<String> getDependencies() {
+        return dependencies;
     }
 
-    public void setDependenciesList(List<String> dependenciesList) {
-        this.dependencies = convertListToString(dependenciesList);
-        this.dependenciesList = dependenciesList;
-    }
-
-    private String convertListToString(List<String> dependenciesList){
-        String dependeciesString ="";
-        for(int i = 0; i < dependenciesList.size(); i++){
-            if(i == dependenciesList.size() - 1) {
-                dependeciesString += dependenciesList.get(i);
-                break;
-            }
-            dependeciesString += dependenciesList.get(i) + ",";
-        }
-        return dependeciesString;
+    public void setDependencies(List<String> dependencies) {
+        this.dependencies = dependencies;
     }
 }
