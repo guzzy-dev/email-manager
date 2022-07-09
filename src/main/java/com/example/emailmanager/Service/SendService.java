@@ -35,9 +35,9 @@ public class SendService {
         return emailService.save(email);
     }
 
-    public Long sendHTMLEmail(Email email, User user) throws Exception{
+    public Long sendHTMLEmail(Email email) throws Exception{
         Context htmlContext = new Context();
-        htmlContext.setVariable("user", user);
+        htmlContext.setVariable("content", email.getContent());
 
         String process = templateEngine.process(email.getHtmlTemplate(), htmlContext);
 

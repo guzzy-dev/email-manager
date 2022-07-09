@@ -1,12 +1,20 @@
 package com.example.emailmanager.Service.Repository.Entity;
 
+import com.example.emailmanager.utils.JsonToMapConverter;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Data
 @Table(name = "emails")
+@TypeDef(name = "json", typeClass = JsonStringType.class)
 public class Email {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +35,12 @@ public class Email {
     @Column(name = "html_template")
     private String htmlTemplate;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    @Convert(attributeName = "content", converter = JsonToMapConverter.class)
+    private Map<String, String> content;
 
-    
+    @Value("CREATED")
     private String status;
 
     public long getId() {
@@ -81,12 +91,20 @@ public class Email {
         this.htmlTemplate = htmlTemplate;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Map<String, String> getContent() {
+        return content;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setContent(Map<String, String> content) {
+        this.content = content;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

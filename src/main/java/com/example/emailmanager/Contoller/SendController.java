@@ -47,13 +47,10 @@ public class SendController {
     }
 
     @PostMapping(value = "/html")
-    ResponseEntity sendHtml(@RequestBody JsonNode node){
+    ResponseEntity sendHtml(@RequestBody Email email){
         Map<String, String> response = new HashMap<>();
         try {
-            User user = mapper.treeToValue(node.get("user"), User.class);
-            Email email = mapper.treeToValue(node, Email.class);
-            email.setUserId(user.getId());
-            Long emailId = sendService.sendHTMLEmail(email, user);
+            Long emailId = sendService.sendHTMLEmail(email);
             response.put("emailId", emailId.toString());
             return ResponseEntity.status(HttpStatus.OK).body(response);
 

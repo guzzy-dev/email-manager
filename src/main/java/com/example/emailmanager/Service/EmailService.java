@@ -23,4 +23,7 @@ public class EmailService {
         return email.getId();
     }
 
+    public void deleteById(Long id){
+        emailRepository.deleteById(id);
+    }
 }
