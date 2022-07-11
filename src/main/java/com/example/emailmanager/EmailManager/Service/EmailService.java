@@ -1,12 +1,14 @@
-package com.example.emailmanager.Service;
+package com.example.emailmanager.EmailManager.Service;
 
 
-import com.example.emailmanager.Service.Repository.EmailRepository;
-import com.example.emailmanager.Service.Repository.Entity.Email;
+import com.example.emailmanager.EmailManager.Service.Repository.EmailRepository;
+import com.example.emailmanager.Model.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +27,9 @@ public class EmailService {
 
     public void deleteById(Long id){
         emailRepository.deleteById(id);
+    }
+
+    public List<Email> getAllSortedByPriority(){
+        return new ArrayList<>();
     }
 }

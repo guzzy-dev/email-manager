@@ -1,9 +1,8 @@
-package com.example.emailmanager.Contoller;
+package com.example.emailmanager.EmailManager.Contoller;
 
-import com.example.emailmanager.Service.EmailService;
-import com.example.emailmanager.Service.Repository.Entity.Email;
+import com.example.emailmanager.EmailManager.Service.EmailService;
+import com.example.emailmanager.Model.Email;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

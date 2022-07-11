@@ -1,6 +1,6 @@
-package com.example.emailmanager.Service.Repository;
+package com.example.emailmanager.EmailManager.Service.Repository;
 
-import com.example.emailmanager.Service.Repository.Entity.Template;
+import com.example.emailmanager.Model.Template;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

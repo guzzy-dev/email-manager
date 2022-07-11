@@ -1,6 +1,4 @@
-package com.example.emailmanager.Service.Repository.Entity;
-
-import javax.persistence.Entity;
+package com.example.emailmanager.Model;
 
 
 public class User {

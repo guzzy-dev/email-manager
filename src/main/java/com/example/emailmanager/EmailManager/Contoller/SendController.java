@@ -1,11 +1,7 @@
-package com.example.emailmanager.Contoller;
+package com.example.emailmanager.EmailManager.Contoller;
 
-import com.example.emailmanager.Service.Repository.Entity.Email;
-import com.example.emailmanager.Service.Repository.Entity.User;
-import com.example.emailmanager.Service.SendService;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.example.emailmanager.Model.Email;
+import com.example.emailmanager.EmailManager.Service.SendService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

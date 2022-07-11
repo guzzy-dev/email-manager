@@ -1,7 +1,8 @@
-package com.example.emailmanager.Service.Repository.Entity;
+package com.example.emailmanager.Model;
 
 import com.example.emailmanager.utils.Convertors.StringToListConverter;
 import lombok.Data;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,6 +22,16 @@ public class Template {
     @Column(name = "dependencies")
     @Convert(converter = StringToListConverter.class)
     private List<String> dependencies;
+
+    private int priority;
+
+    public Template(String templateName){
+        this.templateName = templateName;
+    }
+
+    public Template() {
+
+    }
 
 
     public Long getId() {
@@ -45,5 +56,13 @@ public class Template {
 
     public void setDependencies(List<String> dependencies) {
         this.dependencies = dependencies;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }

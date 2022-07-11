@@ -1,4 +1,4 @@
-package com.example.emailmanager.Service.Repository.Entity;
+package com.example.emailmanager.Model;
 
 import com.example.emailmanager.utils.Convertors.JsonToMapConverter;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
@@ -34,15 +34,17 @@ public class Email {
     @Column(name = "title")
     private String subject;
 
-    @Column(name = "html_template")
-    private String htmlTemplate;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @JoinColumn(name = "html_template",referencedColumnName = "name", nullable = false)
+    private Template htmlTemplate;
 
     @Type(type = "json")
     @Column(columnDefinition = "json")
     @Convert(attributeName = "content", converter = JsonToMapConverter.class)
     private Map<String, String> content;
 
-    private String status = "CREATED";
+    private int priority;
 
 
     @Override

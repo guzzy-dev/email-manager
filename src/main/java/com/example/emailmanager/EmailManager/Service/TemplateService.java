@@ -1,9 +1,8 @@
-package com.example.emailmanager.Service;
+package com.example.emailmanager.EmailManager.Service;
 
 
-import com.example.emailmanager.Service.Repository.Entity.Template;
-import com.example.emailmanager.Service.Repository.TemplateRepository;
-import org.aspectj.lang.annotation.Aspect;
+import com.example.emailmanager.Model.Template;
+import com.example.emailmanager.EmailManager.Service.Repository.TemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +29,16 @@ public class TemplateService {
         return template.getId();
     }
 
-    public Template fetchByName(String name){
-        return templateRepository.findByTemplateName(name).get();
+    public Template fetchByName(String name) throws Exception {
+        try{
+            System.out.println(name);
+            Template template = templateRepository.findByTemplateName(name).get();
+            return template;
+        }
+        catch (Exception e){
+            throw new Exception("Can't find template with name " + name);
+        }
+
+
     }
 }

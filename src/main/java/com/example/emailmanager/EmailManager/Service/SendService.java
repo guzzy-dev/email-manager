@@ -1,7 +1,7 @@
-package com.example.emailmanager.Service;
+package com.example.emailmanager.EmailManager.Service;
 
-import com.example.emailmanager.Service.Repository.Entity.Email;
-import com.example.emailmanager.Service.Repository.Entity.Template;
+import com.example.emailmanager.Model.Email;
+import com.example.emailmanager.Model.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -42,13 +42,14 @@ public class SendService {
     }
 
     public Long sendHTMLEmail(Email email) throws Exception{
-        Template template = templateService.fetchByName(email.getHtmlTemplate());
+        Template template = templateService.fetchByName(email.getHtmlTemplate().getTemplateName());
+        email.setHtmlTemplate(template);
         checkTemplateDependencies(template.getDependencies(), email.getContent());
 
         Context htmlContext = new Context();
         htmlContext.setVariable("content", email.getContent());
 
-        String process = templateEngine.process(email.getHtmlTemplate(), htmlContext);
+        String process = templateEngine.process(email.getHtmlTemplate().getTemplateName(), htmlContext);
 
         javax.mail.internet.MimeMessage mimeMessage = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
