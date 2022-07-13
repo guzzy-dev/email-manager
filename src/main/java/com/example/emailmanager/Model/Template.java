@@ -5,12 +5,13 @@ import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "templates")
 @Data
-public class Template {
+public class Template implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

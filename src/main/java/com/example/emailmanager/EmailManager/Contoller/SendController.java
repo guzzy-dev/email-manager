@@ -1,5 +1,6 @@
 package com.example.emailmanager.EmailManager.Contoller;
 
+import com.example.emailmanager.EmailManager.Service.EmailService;
 import com.example.emailmanager.Model.Email;
 import com.example.emailmanager.EmailManager.Service.SendService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +21,9 @@ public class SendController {
 
     @Autowired
     SendService sendService;
+
+    @Autowired
+    EmailService emailService;
 
     @Autowired
     ObjectMapper mapper;
@@ -46,7 +50,7 @@ public class SendController {
     ResponseEntity sendHtml(@RequestBody Email email){
         Map<String, String> response = new HashMap<>();
         try {
-            Long emailId = sendService.sendHTMLEmail(email);
+            Long emailId = emailService.save(email);
             response.put("emailId", emailId.toString());
             return ResponseEntity.status(HttpStatus.OK).body(response);
 

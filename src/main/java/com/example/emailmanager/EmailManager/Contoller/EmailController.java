@@ -21,10 +21,5 @@ public class EmailController {
         return ResponseEntity.ok(emailService.fetchById(emailId).get());
     }
 
-    @PostMapping(value = "/")
-    Long saveEmail(@RequestBody Email email) throws SQLException {
-        emailService.save(email);
-        return email.getId();
-    }
 
 }

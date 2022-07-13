@@ -21,13 +21,11 @@ public class SendService {
     TemplateEngine templateEngine;
 
     @Autowired
-    EmailService emailService;
-
-    @Autowired
     TemplateService templateService;
 
     @Autowired
     JavaMailSender sender;
+
 
     public Long sendSimpleEmail(Email email) throws Exception{
 
@@ -38,7 +36,7 @@ public class SendService {
         message.setFrom(email.getEmailFrom());
 
         sender.send(message);
-        return emailService.save(email);
+        return email.getId();
     }
 
     public Long sendHTMLEmail(Email email) throws Exception{
@@ -60,7 +58,7 @@ public class SendService {
         helper.setFrom(email.getEmailFrom());
 
         sender.send(mimeMessage);
-        return emailService.save(email);
+        return email.getId();
     }
 
 

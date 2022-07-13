@@ -5,6 +5,7 @@ import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -15,6 +16,7 @@ import java.util.Map;
 @Data
 @Getter
 @Setter
+@ToString
 @Table(name = "emails")
 @TypeDef(name = "json", typeClass = JsonStringType.class)
 public class Email {
@@ -46,15 +48,8 @@ public class Email {
 
     private int priority;
 
-
-    @Override
-    public String toString() {
-        return "Email{" +
-                "id=" + id +
-                ", emailTo='" + emailTo + '\'' +
-                ", emailFrom='" + emailFrom + '\'' +
-                ", text='" + text + '\'' +
-                ", subject='" + subject + '\'' +
-                '}';
+    public void setHtmlTemplate(Template htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+        this.priority = htmlTemplate.getPriority();
     }
 }
