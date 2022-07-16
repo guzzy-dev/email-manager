@@ -19,13 +19,17 @@ public class UserService {
 
     public Long save(User user) {
         Optional<User> maybeUser = userRepository.findUserByUsername(user.getUsername());
+
         if(!maybeUser.isEmpty()){
             user.setId(maybeUser.get().getId());
         }
-        user.setPassword(encoder.encode(user.getPassword()));
+        if(!user.getPassword().contains("$2a$10$")){
+            user.setPassword(encoder.encode(user.getPassword()));
+        }
         userRepository.save(user);
         return user.getId();
     }
+
 
     public User getByUsername(String username){
         return userRepository.findUserByUsername(username).get();

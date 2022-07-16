@@ -7,11 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/templates")
+@RolesAllowed({"ROLE_CONFIGURER"})
 public class TemplateController {
 
     @Autowired

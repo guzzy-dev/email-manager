@@ -38,7 +38,7 @@ public class Email {
 
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
-    @JoinColumn(name = "html_template",referencedColumnName = "name", nullable = false)
+    @JoinColumn(name = "html_template",referencedColumnName = "name")
     private Template htmlTemplate;
 
     @Type(type = "json")

@@ -14,6 +14,8 @@ import java.util.List;
 @Service
 public class HandleService {
 
+    private boolean sending = false;
+
     @Autowired
     EmailService emailService;
 
@@ -24,9 +26,11 @@ public class HandleService {
     SendService sendService;
 
 
-    @Scheduled(fixedDelay=15000)
+    @Scheduled(fixedDelayString = "${handler.delay}")
     private void handleLaunch(){
-        handleEmails();
+        if(sending){
+            handleEmails();
+        }
     }
 
     private int handleEmails(){
@@ -51,6 +55,11 @@ public class HandleService {
 
         archivedEmailService.save(new ArchivedEmail(email));
         emailService.delete(email);
+        //TODO add logging
+    }
 
+    public void setSendingState(boolean status){
+        sending = status;
+        //TODO add logging
     }
 }

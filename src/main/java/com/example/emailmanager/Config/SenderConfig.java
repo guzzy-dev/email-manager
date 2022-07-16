@@ -33,7 +33,7 @@ public class SenderConfig {
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
+        props.put("mail.debug", "false");
         props.put("mail.smtp.ssl.trust", environment.getProperty("email.sender.host"));
         props.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
 

@@ -23,8 +23,11 @@ public class EmailService {
     }
 
     public Long save(Email email) throws Exception {
-        Template template = templateService.fetchByName(email.getHtmlTemplate().getTemplateName());
-        email.setHtmlTemplate(template);
+        if(email.getHtmlTemplate() != null){
+            Template template = templateService.fetchByName(email.getHtmlTemplate().getTemplateName());
+            email.setHtmlTemplate(template);
+        }
+
 
         emailRepository.save(email);
         return email.getId();

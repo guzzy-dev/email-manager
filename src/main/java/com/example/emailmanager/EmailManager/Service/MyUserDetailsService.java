@@ -2,6 +2,7 @@ package com.example.emailmanager.EmailManager.Service;
 
 import com.example.emailmanager.Model.Role;
 import com.example.emailmanager.Model.User;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +19,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     UserService userService;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

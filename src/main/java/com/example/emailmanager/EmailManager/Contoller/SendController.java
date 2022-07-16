@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/send")
+@RolesAllowed({"ROLE_SENDER"})
 public class SendController {
 
     @Autowired
@@ -33,9 +35,7 @@ public class SendController {
     ResponseEntity sendSimpleEmail(@RequestBody Email email){
         Map<String, String> response = new HashMap<>();
         try {
-            Long emailId = sendService.sendSimpleEmail(email);
-
-
+            Long emailId = emailService.save(email);
             response.put("emailId", emailId.toString());
             return ResponseEntity.status(HttpStatus.OK).body(response);
 
