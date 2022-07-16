@@ -1,32 +1,36 @@
 package com.example.emailmanager.Model;
 
 
+import com.example.emailmanager.utils.Convertors.EnumListToStringConverter;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
-    private String nickname;
-    private int age;
 
-    public String getNickname() {
-        return nickname;
-    }
+    private String username;
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+    private String password;
 
-    public Long getId() {
-        return id;
-    }
+    private boolean enable;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "roles")
+    @Convert(converter = EnumListToStringConverter.class)
+    private List<Role> roles;
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 }

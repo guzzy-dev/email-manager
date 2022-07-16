@@ -1,14 +1,12 @@
 package com.example.emailmanager.EmailManager.Service;
 
 
-import com.example.emailmanager.EmailManager.Service.Repository.EmailRepository;
+import com.example.emailmanager.EmailManager.Repository.EmailRepository;
 import com.example.emailmanager.Model.Email;
 import com.example.emailmanager.Model.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

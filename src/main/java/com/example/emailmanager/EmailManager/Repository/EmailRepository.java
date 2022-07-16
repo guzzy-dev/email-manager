@@ -1,4 +1,4 @@
-package com.example.emailmanager.EmailManager.Service.Repository;
+package com.example.emailmanager.EmailManager.Repository;
 
 import com.example.emailmanager.Model.Email;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,8 +1,7 @@
 package com.example.emailmanager.EmailManager.Service;
 
-import com.example.emailmanager.EmailManager.Service.Repository.ArchivedEmailRepository;
+import com.example.emailmanager.EmailManager.Repository.ArchivedEmailRepository;
 import com.example.emailmanager.Model.ArchivedEmail;
-import com.example.emailmanager.Model.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

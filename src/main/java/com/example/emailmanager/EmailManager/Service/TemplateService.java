@@ -2,7 +2,7 @@ package com.example.emailmanager.EmailManager.Service;
 
 
 import com.example.emailmanager.Model.Template;
-import com.example.emailmanager.EmailManager.Service.Repository.TemplateRepository;
+import com.example.emailmanager.EmailManager.Repository.TemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +18,11 @@ public class TemplateService {
     }
     public Long save(Template template){
         Optional<Template> maybeTemplate =  templateRepository.findByTemplateName(template.getTemplateName());
-        if(maybeTemplate.isEmpty()){
-            templateRepository.save(template);
-        }
-        else{
+        if(!maybeTemplate.isEmpty()) {
             template.setId(maybeTemplate.get().getId());
-            templateRepository.save(template);
         }
+
+        templateRepository.save(template);
 
         return template.getId();
     }

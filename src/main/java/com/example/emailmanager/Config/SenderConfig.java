@@ -8,10 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+
 
 import java.util.Properties;
 
@@ -40,13 +39,6 @@ public class SenderConfig {
 
         return mailSender;
     }
-
-//    @Bean
-//    public ThymeleafViewResolver thymeleafViewResolver() {
-//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-//        viewResolver.setTemplateEngine(templateEngine());
-//        return viewResolver;
-//    }
 
     @Bean
     public SpringTemplateEngine templateEngine() {
