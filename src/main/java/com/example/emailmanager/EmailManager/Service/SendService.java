@@ -10,6 +10,13 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.net.InterfaceAddress;
 import java.util.List;
 import java.util.Map;
 
@@ -24,22 +31,30 @@ public class SendService {
     TemplateService templateService;
 
     @Autowired
-    JavaMailSender sender;
+    Transport transport;
+
+    @Autowired
+    Session session;
 
 
     public Long sendSimpleEmail(Email email) throws Exception{
+        InternetAddress[] addresses = {new InternetAddress(email.getEmailTo())};
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email.getEmailTo());
-        message.setText(email.getText());
-        message.setSubject(email.getSubject());
-        message.setFrom(email.getEmailFrom());
+        MimeMessage mimeMessage = new MimeMessage(session);
 
-        sender.send(message);
+        mimeMessage.setRecipients(Message.RecipientType.TO, addresses);
+        mimeMessage.setFrom(new InternetAddress(email.getEmailFrom()));
+        mimeMessage.setText(email.getText());
+        mimeMessage.setSubject(email.getSubject());
+
+        transport.sendMessage(mimeMessage, addresses);
         return email.getId();
+        //TODO add logging of email
     }
 
     public Long sendHTMLEmail(Email email) throws Exception{
+        InternetAddress[] addresses = {new InternetAddress(email.getEmailTo())};
+
         Template template = templateService.fetchByName(email.getHtmlTemplate().getTemplateName());
         email.setHtmlTemplate(template);
         checkTemplateDependencies(template.getDependencies(), email.getContent());
@@ -49,7 +64,8 @@ public class SendService {
 
         String process = templateEngine.process(email.getHtmlTemplate().getTemplateName(), htmlContext);
 
-        javax.mail.internet.MimeMessage mimeMessage = sender.createMimeMessage();
+
+        MimeMessage mimeMessage = new MimeMessage(session);
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
         helper.setTo(email.getEmailTo());
@@ -57,8 +73,9 @@ public class SendService {
         helper.setSubject(email.getSubject());
         helper.setFrom(email.getEmailFrom());
 
-        sender.send(mimeMessage);
+        transport.sendMessage(helper.getMimeMessage(), addresses);
         return email.getId();
+        //TODO add logging of email
     }
 
 

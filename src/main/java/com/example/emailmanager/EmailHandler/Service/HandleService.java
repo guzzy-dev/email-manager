@@ -6,6 +6,7 @@ import com.example.emailmanager.EmailManager.Service.SendService;
 import com.example.emailmanager.Model.ArchivedEmail;
 import com.example.emailmanager.Model.Email;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,8 @@ import java.util.List;
 @Service
 public class HandleService {
 
-    private boolean sending = false;
+
+    private boolean sending = true;
 
     @Autowired
     EmailService emailService;

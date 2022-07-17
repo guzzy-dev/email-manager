@@ -29,7 +29,6 @@ public class TemplateService {
 
     public Template fetchByName(String name) throws Exception {
         try{
-            System.out.println(name);
             Template template = templateRepository.findByTemplateName(name).get();
             return template;
         }

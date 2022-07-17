@@ -35,8 +35,11 @@ public class ArchivedEmail {
         this.emailFrom = email.getEmailFrom();
         this.title = email.getSubject();
         this.text = email.getText();
-        this.html_template = email.getHtmlTemplate().getTemplateName();
-        this.content = email.getContent().toString();
+        if(email.getHtmlTemplate()!=null){
+            this.html_template = email.getHtmlTemplate().getTemplateName();
+            this.content = email.getContent().toString();
+        }
+
     }
 
     public ArchivedEmail() {
