@@ -1,10 +1,13 @@
 package com.example.emailmanager.Config;
 
+import com.example.emailmanager.EmailManager.Service.SendService;
+import com.example.emailmanager.utils.Threads.SendingThread;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -16,6 +19,8 @@ import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Transport;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 @Configuration
@@ -24,25 +29,9 @@ public class SenderConfig {
     @Autowired
     Environment environment;
 
-//    @Bean
-//    public JavaMailSender getJavaMailSender() {
-//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost(environment.getProperty("email.sender.host"));
-//        mailSender.setPort(Integer.parseInt(environment.getProperty("email.sender.port")));
-//
-//        mailSender.setUsername(environment.getProperty("email.sender.username"));
-//        mailSender.setPassword(environment.getProperty("email.sender.password"));
-//
-//        Properties props = mailSender.getJavaMailProperties();
-//        props.put("mail.transport.protocol", "smtp");
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.debug", environment.getProperty("email.sender.debug"));
-//        props.put("mail.smtp.ssl.trust", environment.getProperty("email.sender.host"));
-//        props.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
-//
-//        return mailSender;
-//    }
+    @Autowired
+    SendService sendService;
+
 
     @Bean
     public SpringTemplateEngine templateEngine() {
@@ -69,6 +58,7 @@ public class SenderConfig {
     }
 
     @Bean
+    @Scope("prototype")
     Transport transport(Session session) throws MessagingException {
 
         Transport transport = session.getTransport("smtp");
@@ -94,5 +84,24 @@ public class SenderConfig {
         return session;
     }
 
+    @Bean
+    List<Transport> transportList() throws MessagingException {
+        List<Transport> list = new ArrayList<>();
+        for(int i = 0; i <Integer.valueOf(environment.getProperty("email.sender.threads")) ; i++){
+            list.add(transport(session()));
+        }
+        return list;
+    }
+
+    @Bean
+    List<SendingThread> sendingThreadList() throws MessagingException {
+        List<SendingThread> list = new ArrayList<>();
+        for(int i = 0; i <Integer.valueOf(environment.getProperty("email.sender.threads")) ; i++){
+            SendingThread thread = new SendingThread(transport(session()), i+1);
+            thread.setSendService(sendService);
+            list.add(thread);
+        }
+        return list;
+    }
 
 }

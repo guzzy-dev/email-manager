@@ -30,14 +30,12 @@ public class SendService {
     @Autowired
     TemplateService templateService;
 
-    @Autowired
-    Transport transport;
 
     @Autowired
     Session session;
 
 
-    public Long sendSimpleEmail(Email email) throws Exception{
+    public Long sendSimpleEmail(Email email, Transport transport) throws Exception{
         InternetAddress[] addresses = {new InternetAddress(email.getEmailTo())};
 
         MimeMessage mimeMessage = new MimeMessage(session);
@@ -52,7 +50,7 @@ public class SendService {
         //TODO add logging of email
     }
 
-    public Long sendHTMLEmail(Email email) throws Exception{
+    public Long sendHTMLEmail(Email email, Transport transport) throws Exception{
         InternetAddress[] addresses = {new InternetAddress(email.getEmailTo())};
 
         Template template = templateService.fetchByName(email.getHtmlTemplate().getTemplateName());
